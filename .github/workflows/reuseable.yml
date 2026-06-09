@@ -4,19 +4,25 @@ on:
   workflow_call:
     inputs:
       artifact-name:
-        description: name of deployable atrifact file
+        description: name of deployable artifact file
         required: false
         default: dist
         type: string
+
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: get code
+      - name: download artifact
         uses: actions/download-artifact@v6
         with:
-          name: ${{inputs.artifact-name}}
+          name: ${{ inputs.artifact-name }}
+
       - name: list files
         run: ls
-      - name: output information
-        run: echo 'Deploying the project'
+
+      - name: deploy
+        run: echo "Deploying the project"
